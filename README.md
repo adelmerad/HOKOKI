@@ -3,6 +3,8 @@
 > Built at the **NCS Hackathon 2026**.
 >
 > **🌐 Live demo: [hokoki.vercel.app](https://hokoki.vercel.app)** — deployed on Vercel in [demo mode](#demo-mode). Best viewed on a phone or in mobile view.
+>
+> **🔑 Demo account:** sign-in is simulated — on the [login page](https://hokoki.vercel.app/login) enter any phone number and password (e.g. `0555123456` / `demo1234`) and tap Login. Lawyer screens are under [/lawyer-dashboard](https://hokoki.vercel.app/lawyer-dashboard).
 
 HOKOKI is a mobile-first legal services platform designed for Algerian citizens. It provides instant legal guidance in Arabic — through an AI chat assistant, contract analysis, a laws browser, step-by-step procedure guides, and a lawyer marketplace — without requiring legal expertise to get started.
 
