@@ -1,6 +1,8 @@
-# HAKI — AI-Powered Legal Assistant for Algeria
+# HOKOKI — AI-Powered Legal Assistant for Algeria
 
-HAKI is a mobile-first legal services platform designed for Algerian citizens. It provides instant legal guidance in Arabic — through an AI chat assistant, contract analysis, a laws browser, step-by-step procedure guides, and a lawyer marketplace — without requiring legal expertise to get started.
+> Built at the **NCS Hackathon 2026**. Deployed on Vercel as a standalone demo.
+
+HOKOKI is a mobile-first legal services platform designed for Algerian citizens. It provides instant legal guidance in Arabic — through an AI chat assistant, contract analysis, a laws browser, step-by-step procedure guides, and a lawyer marketplace — without requiring legal expertise to get started.
 
 ---
 
@@ -14,7 +16,7 @@ Legal knowledge in Algeria is fragmented across complex government sources and i
 - Difficulty finding and contacting trustworthy local lawyers
 - Legal anxiety from not knowing their rights or next steps
 
-HAKI addresses all five pain points in a single mobile interface.
+HOKOKI addresses all five pain points in a single mobile interface.
 
 ---
 
@@ -56,7 +58,7 @@ HAKI addresses all five pain points in a single mobile interface.
 ## Project Structure
 
 ```
-HAKI/
+HOKOKI/
 ├── public/
 ├── src/
 │   ├── App.tsx                    # Router + AnimatePresence page transitions
@@ -90,7 +92,7 @@ HAKI/
 │   ├── lib/
 │   │   ├── constants.ts           # Color scheme, law categories, wilayas
 │   │   ├── utils.ts               # cn() utility (clsx + tailwind-merge)
-│   │   ├── http-client.tsx        # Axios base client (baseURL: localhost:8000)
+│   │   ├── http-client.tsx        # Axios client (baseURL from VITE_AI_URL)
 │   │   └── api/
 │   │       ├── chat.ts            # POST /api/laws/chat
 │   │       ├── contract.ts        # POST /api/contract/analyze
@@ -183,7 +185,7 @@ HAKI/
 
 ## API Endpoints
 
-The frontend communicates with a backend at `http://localhost:8000`:
+The frontend communicates with the AI service at `VITE_AI_URL` (default `http://localhost:8000`):
 
 | Method | Endpoint | Purpose |
 |---|---|---|
@@ -243,25 +245,17 @@ npm run lint
 
 ## Environment Variables
 
-Copy `.env.example` and fill in the values:
+| Variable | Description |
+|----------|-------------|
+| `VITE_AI_URL` | Base URL of the HOKOKI AI service (`hokoki-ai`). Leave it empty to run the app in demo mode. |
 
 ```bash
-cp .env.example .env
+cp .env.example .env.local
 ```
 
-```bash
-DATABASE_URL=          # PostgreSQL connection string (backend)
-LLM_API_KEY=           # LLM provider key (backend AI features)
-JWT_SECRET=            # JWT signing secret (backend auth)
-```
+## Demo Mode
 
-The frontend itself reads no environment variables directly — all config lives in [src/lib/http-client.tsx](src/lib/http-client.tsx). To point at a different backend:
-
-```ts
-export const httpClient = axios.create({
-  baseURL: 'https://your-backend-url.com',
-})
-```
+Without `VITE_AI_URL`, the app is fully usable as a standalone demo: laws, procedures, lawyers and dashboards run on the bundled sample data, the legal chat and the procedure assistant answer with topic-matched sample replies (clearly labelled as demo answers), and contract analysis explains that it needs the AI service. This is how the public demo is deployed.
 
 ---
 
@@ -269,16 +263,16 @@ export const httpClient = axios.create({
 
 ```
 +-------------------------------+        +----------------------------------+
-|  HAKI Frontend                |        |  Backend (Node.js / NestJS)      |
+|  HOKOKI Frontend              |        |  HOKOKI AI service (VITE_AI_URL) |
 |  React 19 + Vite 8            | -----> |  POST /api/laws/chat             |
 |  TypeScript + Tailwind CSS    |        |  POST /api/contract/analyze      |
 |  Framer Motion + Socket.IO    |        |  POST /api/procedure/chat        |
-+-------------------------------+        |  LLM API (Groq)                  |
-                                         |  PostgreSQL                      |
++-------------------------------+        |  LangChain RAG · Groq (Llama 3.3)|
+                                         |  ChromaDB vector store           |
                                          +----------------------------------+
 ```
 
-The frontend is fully functional with local mock data — no backend required to run and explore the UI. Live AI features (chat, contract analysis) need the backend running.
+The frontend is fully functional with local mock data — no backend required to run and explore the UI. Live AI features (chat, contract analysis, procedure assistant) need the AI service; without it the app runs in [demo mode](#demo-mode).
 
 ---
 
@@ -296,7 +290,7 @@ All content is trilingual:
 
 ## Roadmap
 
-- [ ] Backend service with real AI chat (LLM API) and contract NLP
+- [ ] Connect the remaining mock screens to the backend API and the AI service
 - [ ] Real authentication with JWT and persistent user accounts
 - [ ] Lawyer appointment booking with live calendar availability
 - [ ] Personal legal case tracker with deadline reminders
@@ -307,6 +301,6 @@ All content is trilingual:
 
 ---
 
-## Why HAKI
+## Why HOKOKI
 
-In Algeria, legal knowledge is distributed across dense legislation, government portals, and professional networks that most citizens cannot navigate. HAKI brings structured Arabic-language legal guidance to any phone — reducing the barrier between a citizen and the information they need to protect their rights, complete a procedure, or engage a lawyer with confidence.
+In Algeria, legal knowledge is distributed across dense legislation, government portals, and professional networks that most citizens cannot navigate. HOKOKI brings structured Arabic-language legal guidance to any phone — reducing the barrier between a citizen and the information they need to protect their rights, complete a procedure, or engage a lawyer with confidence.
