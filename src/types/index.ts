@@ -96,6 +96,7 @@ export interface ChatMessage {
   role: MessageRole
   question: string
   sessionId ?: string
+  timestamp?: string
   citationChips?: CitationChip[]
   isEmergency?: boolean
   structuredAnswer?: StructuredAnswer

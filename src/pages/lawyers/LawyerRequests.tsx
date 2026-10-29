@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Clock, CheckCircle2, XCircle, Hourglass } from 'lucide-react'
+import { Clock, Hourglass } from 'lucide-react'
 import { MobileFrame } from '../../components/layout/MobileFrame'
 import { StatusBar } from '../../components/layout/StatusBar'
 import { TopBar } from '../../components/layout/TopBar'

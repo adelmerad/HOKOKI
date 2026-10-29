@@ -4,7 +4,6 @@ import { Star, Clock, TrendingUp, Users, Calendar, ChevronLeft, Bell } from 'luc
 import { MobileFrame } from '../../components/layout/MobileFrame'
 import { StatusBar } from '../../components/layout/StatusBar'
 import { PageTransition } from '../../components/layout/PageTransition'
-import { Badge } from '../../components/ui/Badge'
 import { lawyerRequests } from '../../data/mockLawyerRequests'
 import { lawyers } from '../../data/mockLawyers'
 
