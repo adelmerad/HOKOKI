@@ -7,7 +7,7 @@ import { StatusBar } from '../../components/layout/StatusBar'
 import { TopBar } from '../../components/layout/TopBar'
 import { PageTransition } from '../../components/layout/PageTransition'
 import { Badge } from '../../components/ui/Badge'
-import { conversations, mockBotResponses } from '../../data/mockConversations'
+import { conversations } from '../../data/mockConversations'
 import type { ChatMessage } from '../../types'
 import { sendMessage } from '../../lib/api/chat'
 
@@ -70,18 +70,25 @@ export function ChatActive() {
     setIsBotTyping(true)
 
 
-  const response =  await sendMessage(userMsg.question, userMsg.sessionId)
+    let answer: string
+    try {
+      answer = (await sendMessage(userMsg.question, userMsg.sessionId)).answer
+    } catch {
+      // Never leave the typing indicator spinning if the AI service is down
+      answer = 'تعذّر الاتصال بالمساعد الذكي. حاول مجدداً بعد قليل.'
+    }
 
-      setIsBotTyping(false)
-      const botId = `b-${Date.now()}`
-      setNewBotMsgId(botId)
+    setIsBotTyping(false)
+    const botId = `b-${Date.now()}`
+    setNewBotMsgId(botId)
 
     setTimeout(() => {
       const botMsg: ChatMessage = {
         id: botId,
         role: 'bot',
-        question: response.answer,
-        sessionId: sessionId || undefined,}
+        question: answer,
+        sessionId: sessionId || undefined,
+      }
       setMessages((prev) => [...prev, botMsg])
     }, 500)
   }

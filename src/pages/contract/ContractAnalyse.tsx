@@ -21,7 +21,7 @@ import { TopBar } from '../../components/layout/TopBar'
 import { BottomNav } from '../../components/layout/BottomNav'
 import { PageTransition } from '../../components/layout/PageTransition'
 import { Button } from '../../components/ui/Button'
-import { analyseContract } from '../../lib/api/contract'
+import { AiUnavailableError, analyseContract } from '../../lib/api/contract'
 import type { ContractAnalysisResult } from '../../types'
 
 // ── helpers ──────────────────────────────────────────────────────────────────
@@ -185,8 +185,12 @@ export function ContractAnalyse() {
       const data = await analyseContract(contractText.trim())
       setResult(data)
       setTimeout(() => resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 150)
-    } catch {
-      setError('حدث خطأ أثناء التحليل. تحقق من اتصالك وحاول مجدداً.')
+    } catch (err) {
+      setError(
+        err instanceof AiUnavailableError
+          ? 'تحليل العقود يتطلب المساعد الذكي، وهو غير متصل في هذه النسخة التجريبية.'
+          : 'حدث خطأ أثناء التحليل. تحقق من اتصالك وحاول مجدداً.',
+      )
     } finally {
       setIsAnalysing(false)
     }
